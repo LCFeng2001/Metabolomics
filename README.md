@@ -21,7 +21,7 @@
 - log2 转换
 - Pareto scaling
 - PCA 分析
-- 自动生成不同 genotype、不同时间点下的 `Fg vs CK` 比较
+- 自动生成不同 genotype、不同时间点下的比较
 - limma 差异分析
 - OPLS-DA / VIP 分析
 - ropls 失败时自动生成 fallback VIP-like ranking
@@ -79,18 +79,8 @@ raw_file <- file.path(project_dir, "data/raw/skyline_peak_area.tsv")
 分子
 Compound name
 Class
-母离子质荷比
-子离子质荷比
-blank004
-blank005
-blank均值
-D3140-CK 0h-1
-D3140-CK 0h-2
-D3140-CK 0h-3
-D3140-CK 24h-1
-D3140-Fg 24h-1
-D3140-CK 48h-1
-D3140-Fg 48h-1
+sample1
+sample2
 ...
 ```
 
@@ -101,8 +91,6 @@ D3140-Fg 48h-1
 | `Compound name` | 代谢物名称，默认用于合并重复 transition |
 | `分子` | 原始分子 ID 或 transition ID |
 | `Class` | 代谢物类别 |
-| `blank004`, `blank005` | blank 样本 |
-| `D3140-CK 24h-1` | 生物样本列 |
 
 ---
 
@@ -114,23 +102,7 @@ D3140-Fg 48h-1
 Genotype-Treatment Time-Replicate
 ```
 
-例如：
-
-```text
-D3140-CK 0h-1
-D3140-CK 24h-2
-D3140-Fg 24h-3
-M03-CK 48h-1
-M03-Fg 48h-2
 ```
-
-默认正则表达式在 `config/config.R` 中：
-
-```r
-sample_regex <- "^(.+)-(CK|Fg)\s*(0h|24h|48h)-(\d+)$"
-```
-
-如果你的时间点不是 `0h/24h/48h`，需要修改这个参数。
 
 ---
 
@@ -372,19 +344,6 @@ results/tables/03_PCA_output.xlsx
 
 默认生成每个 genotype 在指定时间点下的：
 
-```text
-Fg vs CK
-```
-
-例如：
-
-```text
-D3140_24h_Fg_vs_CK
-D3140_48h_Fg_vs_CK
-M03_24h_Fg_vs_CK
-M03_48h_Fg_vs_CK
-```
-
 输出：
 
 ```text
@@ -546,11 +505,6 @@ results/tables/06_OPLSDA_output.xlsx
 results/oplsda/<comparison>/
 ```
 
-例如：
-
-```text
-results/oplsda/M03_48h_Fg_vs_CK/
-```
 
 ---
 
@@ -558,20 +512,6 @@ results/oplsda/M03_48h_Fg_vs_CK/
 
 ```text
 results/volcano/
-```
-
-文件示例：
-
-```text
-M03_48h_Fg_vs_CK_volcano.pdf
-M03_48h_Fg_vs_CK_volcano.png
-M03_48h_Fg_vs_CK_volcano.svg
-```
-
-标题格式：
-
-```text
-M03_48h_Fg_vs_CK
 ```
 
 颜色含义：
@@ -619,35 +559,6 @@ results/heatmap/differential/
 results/heatmap/total/
 ```
 
-图文件：
-
-```text
-Total_ComplexHeatmap_all_metabolites_CK_Fg_time_order.pdf
-Total_ComplexHeatmap_all_metabolites_CK_Fg_time_order.png
-Total_ComplexHeatmap_all_metabolites_CK_Fg_time_order.svg
-```
-
-对应表格：
-
-```text
-Total_ComplexHeatmap_all_metabolites_CK_Fg_time_order_matrix_and_annotation.xlsx
-```
-
-CSV 兜底表格：
-
-```text
-Total_ComplexHeatmap_all_metabolites_CK_Fg_time_order_matrix_plot_order_with_info.csv
-Total_ComplexHeatmap_all_metabolites_CK_Fg_time_order_matrix_with_rownames.csv
-Total_ComplexHeatmap_all_metabolites_CK_Fg_time_order_heatmap_row_order.csv
-Total_ComplexHeatmap_all_metabolites_CK_Fg_time_order_heatmap_column_order.csv
-```
-
-分组表格文件夹：
-
-```text
-Total_ComplexHeatmap_all_metabolites_CK_Fg_time_order_grouped_tables/
-```
-
 ---
 
 ### 10.2 Differential heatmap
@@ -656,20 +567,6 @@ Total_ComplexHeatmap_all_metabolites_CK_Fg_time_order_grouped_tables/
 
 ```text
 results/heatmap/differential/
-```
-
-图文件：
-
-```text
-Differential_ComplexHeatmap_all_DE_metabolites_CK_Fg_time_order.pdf
-Differential_ComplexHeatmap_all_DE_metabolites_CK_Fg_time_order.png
-Differential_ComplexHeatmap_all_DE_metabolites_CK_Fg_time_order.svg
-```
-
-对应表格：
-
-```text
-Differential_ComplexHeatmap_all_DE_metabolites_CK_Fg_time_order_matrix_and_annotation.xlsx
 ```
 
 如果差异代谢物数量不足，会生成：
